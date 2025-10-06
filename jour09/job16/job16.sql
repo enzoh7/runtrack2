@@ -1,0 +1,1 @@
+SELECT e.nom AS etage, s.nom AS 'Biggest Room', s.capacite FROM salles s JOIN etage e ON s.id_etage = e.id WHERE s.capacite = (SELECT MAX(capacite) FROM salles);
