@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <title>Job 08 - Statistiques avancées des étudiants</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        body { font-family: Arial, sans-serif; margin: 40px; background: 
         .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #333; text-align: center; }
+        h1, h2 { color: 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
-        .stat-card { background: #f8f9fa; padding: 25px; border-radius: 10px; text-align: center; border: 2px solid #dee2e6; }
-        .stat-card.primary { border-color: #007bff; background: #e7f1ff; }
-        .stat-card.success { border-color: #28a745; background: #d4edda; }
-        .stat-card.warning { border-color: #ffc107; background: #fff3cd; }
-        .stat-card.info { border-color: #17a2b8; background: #d1ecf1; }
+        .stat-card { background: 
+        .stat-card.primary { border-color: 
+        .stat-card.success { border-color: 
+        .stat-card.warning { border-color: 
+        .stat-card.info { border-color: 
         .stat-number { font-size: 2.5em; font-weight: bold; margin: 15px 0; }
-        .stat-card.primary .stat-number { color: #007bff; }
-        .stat-card.success .stat-number { color: #28a745; }
-        .stat-card.warning .stat-number { color: #e0a800; }
-        .stat-card.info .stat-number { color: #17a2b8; }
-        .chart-container { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #dee2e6; }
-        .age-bar { height: 30px; background: linear-gradient(90deg, #007bff, #28a745); margin: 5px 0; border-radius: 5px; position: relative; }
+        .stat-card.primary .stat-number { color: 
+        .stat-card.success .stat-number { color: 
+        .stat-card.warning .stat-number { color: 
+        .stat-card.info .stat-number { color: 
+        .chart-container { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid 
+        .age-bar { height: 30px; background: linear-gradient(90deg, 
         .age-label { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: white; font-weight: bold; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #007cba; color: white; font-weight: bold; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .info { background: #e7f3ff; padding: 15px; border-left: 4px solid #007cba; margin: 20px 0; }
-        .error { background: #f8d7da; color: #721c24; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0; }
+        th, td { border: 1px solid 
+        th { background-color: 
+        tr:nth-child(even) { background-color: 
+        .info { background: 
+        .error { background: 
     </style>
 </head>
 <body>
@@ -43,18 +43,18 @@
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            // === STATISTIQUES GÉNÉRALES ===
+            
             $totalStmt = $pdo->query("SELECT COUNT(*) as total FROM etudiants");
             $total = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
             
             $hommes = $pdo->query("SELECT COUNT(*) as total FROM etudiants WHERE sexe = 'Homme'")->fetch()['total'];
             $femmes = $pdo->query("SELECT COUNT(*) as total FROM etudiants WHERE sexe = 'Femme'")->fetch()['total'];
             
-            // Âge moyen
+            
             $ageStmt = $pdo->query("SELECT AVG(YEAR(CURDATE()) - YEAR(naissance)) as age_moyen FROM etudiants");
             $ageMoyen = round($ageStmt->fetch()['age_moyen'], 1);
             
-            // Plus jeune et plus âgé
+            
             $plusJeuneStmt = $pdo->query("SELECT MIN(YEAR(CURDATE()) - YEAR(naissance)) as plus_jeune FROM etudiants");
             $plusJeune = $plusJeuneStmt->fetch()['plus_jeune'];
             
@@ -89,7 +89,7 @@
             
             echo '</div>';
             
-            // === RÉPARTITION PAR TRANCHE D'ÂGE ===
+            
             echo '<h2>📈 Répartition par âge</h2>';
             
             $ageRanges = [
@@ -115,7 +115,7 @@
             }
             echo '</div>';
             
-            // === TOP 10 DES PRÉNOMS ===
+            
             echo '<h2>🏆 Top des prénoms</h2>';
             $prenomsStmt = $pdo->query("
                 SELECT prenom, COUNT(*) as count 
@@ -145,10 +145,10 @@
                 echo '</table>';
             }
             
-            // === INFORMATIONS DÉTAILLÉES ===
+            
             echo '<h2>ℹ️ Informations détaillées</h2>';
             
-            // Étudiant le plus jeune
+            
             $plusJeuneInfoStmt = $pdo->query("
                 SELECT prenom, nom, naissance, (YEAR(CURDATE()) - YEAR(naissance)) as age
                 FROM etudiants 
@@ -157,7 +157,7 @@
             ");
             $plusJeuneInfo = $plusJeuneInfoStmt->fetch(PDO::FETCH_ASSOC);
             
-            // Étudiant le plus âgé
+            
             $plusAgeInfoStmt = $pdo->query("
                 SELECT prenom, nom, naissance, (YEAR(CURDATE()) - YEAR(naissance)) as age
                 FROM etudiants 
@@ -185,7 +185,7 @@
             }
             echo '</div>';
             
-            // === RÉPARTITION PAR DOMAINE EMAIL ===
+            
             echo '<h2>📧 Domaines email les plus utilisés</h2>';
             $domainesStmt = $pdo->query("
                 SELECT 
@@ -227,3 +227,4 @@
     </div>
 </body>
 </html>
+

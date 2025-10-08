@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <title>Job 04 - Modifier un étudiant</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        body { font-family: Arial, sans-serif; margin: 40px; background: 
         .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        h1 { color: 
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #007cba; color: white; font-weight: bold; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .form-container { margin: 20px 0; padding: 25px; background: #fff3cd; border-radius: 8px; border: 2px solid #ffc107; }
-        input, select { padding: 10px; margin: 5px; width: 250px; border: 1px solid #ddd; border-radius: 4px; }
-        button { padding: 12px 24px; background: #ffc107; color: #212529; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #e0a800; }
-        .edit-btn { background: #17a2b8; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 12px; }
-        .success { background: #d4edda; color: #155724; padding: 15px; border-left: 4px solid #28a745; margin: 20px 0; }
-        .error { background: #f8d7da; color: #721c24; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0; }
+        th, td { border: 1px solid 
+        th { background-color: 
+        tr:nth-child(even) { background-color: 
+        .form-container { margin: 20px 0; padding: 25px; background: 
+        input, select { padding: 10px; margin: 5px; width: 250px; border: 1px solid 
+        button { padding: 12px 24px; background: 
+        button:hover { background: 
+        .edit-btn { background: 
+        .success { background: 
+        .error { background: 
         .form-group { margin: 15px 0; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: 
     </style>
 </head>
 <body>
@@ -39,7 +39,7 @@
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            // Traitement de la modification
+            
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['modifier'])) {
                 $id = $_POST['id'];
                 $prenom = trim($_POST['prenom']);
@@ -49,7 +49,7 @@
                 $email = trim($_POST['email']);
                 
                 if (!empty($prenom) && !empty($nom) && !empty($naissance) && !empty($sexe) && !empty($email)) {
-                    // Vérifier que l'email n'est pas utilisé par un autre étudiant
+                    
                     $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM etudiants WHERE email = :email AND id != :id");
                     $checkStmt->execute(['email' => $email, 'id' => $id]);
                     
@@ -77,7 +77,7 @@
                 }
             }
             
-            // Récupération de l'étudiant à modifier
+            
             if (isset($_GET['id'])) {
                 $stmt = $pdo->prepare("SELECT * FROM etudiants WHERE id = :id");
                 $stmt->execute(['id' => $_GET['id']]);
@@ -90,11 +90,11 @@
         
         echo $message;
         
-        // Formulaire de modification si un étudiant est sélectionné
+        
         if ($etudiantAModifier) {
             ?>
             <form method="POST" class="form-container">
-                <h2>📝 Modifier l'étudiant #<?php echo $etudiantAModifier['id']; ?></h2>
+                <h2>📝 Modifier l'étudiant 
                 <input type="hidden" name="id" value="<?php echo $etudiantAModifier['id']; ?>">
                 
                 <div class="form-group">
@@ -127,13 +127,13 @@
                 
                 <div class="form-group">
                     <button type="submit" name="modifier">💾 Sauvegarder les modifications</button>
-                    <a href="?" style="margin-left: 10px; padding: 12px 24px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">↩️ Retour</a>
+                    <a href="?" style="margin-left: 10px; padding: 12px 24px; background: 
                 </div>
             </form>
             <?php
         }
         
-        // Liste des étudiants
+        
         try {
             $stmt = $pdo->query("SELECT * FROM etudiants ORDER BY nom, prenom");
             $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -168,3 +168,4 @@
     </div>
 </body>
 </html>
+

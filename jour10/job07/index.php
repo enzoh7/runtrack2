@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <title>Job 07 - Tri des étudiants</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        body { font-family: Arial, sans-serif; margin: 40px; background: 
         .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; text-align: center; margin-bottom: 30px; }
-        .sort-controls { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+        h1 { color: 
+        .sort-controls { background: 
         .sort-btn { padding: 10px 15px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
-        .sort-btn.active { background: #007cba; color: white; }
-        .sort-btn:not(.active) { background: #e9ecef; color: #495057; }
+        .sort-btn.active { background: 
+        .sort-btn:not(.active) { background: 
         .sort-btn:hover { opacity: 0.8; }
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #007cba; color: white; font-weight: bold; cursor: pointer; position: relative; }
-        th:hover { background-color: #0056b3; }
+        th, td { border: 1px solid 
+        th { background-color: 
+        th:hover { background-color: 
         th.sortable::after { content: ' ⇅'; opacity: 0.5; }
         th.asc::after { content: ' ↑'; opacity: 1; }
         th.desc::after { content: ' ↓'; opacity: 1; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        tr:hover { background-color: #f0f8ff; }
-        .info { background: #e7f3ff; padding: 15px; border-left: 4px solid #007cba; margin: 20px 0; }
-        .error { background: #f8d7da; color: #721c24; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0; }
+        tr:nth-child(even) { background-color: 
+        tr:hover { background-color: 
+        .info { background: 
+        .error { background: 
     </style>
 </head>
 <body>
@@ -39,18 +39,18 @@
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            // Paramètres de tri
+            
             $sortBy = isset($_GET['sort']) ? $_GET['sort'] : 'nom';
             $order = isset($_GET['order']) ? $_GET['order'] : 'asc';
             
-            // Validation des paramètres
+            
             $validSorts = ['id', 'prenom', 'nom', 'naissance', 'sexe', 'email'];
             $validOrders = ['asc', 'desc'];
             
             if (!in_array($sortBy, $validSorts)) $sortBy = 'nom';
             if (!in_array($order, $validOrders)) $order = 'asc';
             
-            // Affichage des contrôles de tri
+            
             echo '<div class="sort-controls">';
             echo '<h3>📋 Options de tri</h3>';
             echo '<p>Cliquez sur une option pour trier les étudiants :</p>';
@@ -78,10 +78,10 @@
             }
             echo '</div>';
             
-            // Construction de la requête SQL
+            
             $sql = "SELECT * FROM etudiants ORDER BY $sortBy $order";
             if ($sortBy != 'nom') {
-                $sql .= ", nom ASC"; // Tri secondaire par nom
+                $sql .= ", nom ASC"; 
             }
             
             $stmt = $pdo->query($sql);
@@ -97,7 +97,7 @@
                 echo '<thead>';
                 echo '<tr>';
                 
-                // En-têtes cliquables
+                
                 $headers = [
                     'id' => '🆔 ID',
                     'prenom' => '👤 Prénom',
@@ -161,3 +161,4 @@
     </div>
 </body>
 </html>
+

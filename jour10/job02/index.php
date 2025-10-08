@@ -5,11 +5,11 @@
     <title>Job 02 - Recherche d'étudiants</title>
     <style>
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        form { margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 5px; }
+        th, td { border: 1px solid 
+        th { background-color: 
+        form { margin: 20px 0; padding: 20px; background: 
         input, select { padding: 8px; margin: 5px; }
-        button { padding: 10px 20px; background: #007cba; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button { padding: 10px 20px; background: 
     </style>
 </head>
 <body>
@@ -28,37 +28,37 @@
     </form>
     
     <?php
-    // Configuration de la base de données
+    
     $host = 'localhost';
     $dbname = 'jour09';
     $username = 'root';
     $password = '';
     
     try {
-        // Connexion à la base de données avec PDO
+        
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        // Construction de la requête selon les critères
+        
+        require_once '../sql_helper.php';
+        
+        
         if (isset($_GET['critere']) && isset($_GET['valeur']) && !empty($_GET['valeur'])) {
             $critere = $_GET['critere'];
             $valeur = $_GET['valeur'];
             
-            // Sécurisation : vérification que le critère est valide
-            $criteresValides = ['prenom', 'nom', 'sexe'];
-            if (in_array($critere, $criteresValides)) {
-                $sql = "SELECT * FROM etudiants WHERE $critere LIKE :valeur";
+            
+            if (validateSearchCriteria($critere)) {
+                $sql = loadSQLQuery('search_students_by_criteria', ['FIELD' => $critere]);
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(['valeur' => '%' . $valeur . '%']);
             } else {
-                $stmt = $pdo->query("SELECT * FROM etudiants");
+                $etudiants = getAllResults($pdo, 'select_all_students');
             }
         } else {
-            // Afficher tous les étudiants si aucun critère
-            $stmt = $pdo->query("SELECT * FROM etudiants");
+            
+            $etudiants = getAllResults($pdo, 'select_all_students');
         }
-        
-        $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         if ($etudiants) {
             echo '<p>Nombre de résultats : ' . count($etudiants) . '</p>';
@@ -89,3 +89,4 @@
     ?>
 </body>
 </html>
+

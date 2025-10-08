@@ -49,4 +49,25 @@ INSERT INTO `salles` (`id`, `nom`, `id_etage`, `capacite`) VALUES
 (3, 'Broadcasting', 2, 50),
 (4, 'Bocal Peda', 2, 4),
 (5, 'Coworking', 2, 80),
-(6, 'Studio Video', 2, 5);
+(6, 'Studio Video', 1, 8);
+
+DROP TABLE IF EXISTS `etudiants_salles`;
+CREATE TABLE IF NOT EXISTS `etudiants_salles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_etudiant` int NOT NULL,
+  `id_salle` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_etudiant` (`id_etudiant`),
+  KEY `fk_salle` (`id_salle`),
+  FOREIGN KEY (`id_etudiant`) REFERENCES `etudiants` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `etudiants_salles` (`id_etudiant`, `id_salle`) VALUES
+(1, 1), (1, 3),
+(2, 2), (2, 4),
+(3, 1), (3, 5),
+(4, 3), (4, 6),
+(5, 1), (5, 2),
+(6, 4), (6, 5),
+(7, 1);

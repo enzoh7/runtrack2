@@ -5,11 +5,11 @@
     <title>Job 03 - Ajouter un étudiant</title>
     <style>
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        form { margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 5px; }
+        th, td { border: 1px solid 
+        th { background-color: 
+        form { margin: 20px 0; padding: 20px; background: 
         input, select { padding: 8px; margin: 5px; width: 200px; }
-        button { padding: 10px 20px; background: #007cba; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button { padding: 10px 20px; background: 
         .success { color: green; font-weight: bold; }
         .error { color: red; font-weight: bold; }
     </style>
@@ -18,7 +18,7 @@
     <h1>Job 03 - Ajouter un étudiant</h1>
     
     <?php
-    // Configuration de la base de données
+    
     $host = 'localhost';
     $dbname = 'jour09';
     $username = 'root';
@@ -27,11 +27,14 @@
     $message = '';
     
     try {
-        // Connexion à la base de données avec PDO
+        
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        // Traitement du formulaire d'ajout
+        
+        require_once '../sql_helper.php';
+        
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ajouter'])) {
             $prenom = trim($_POST['prenom']);
             $nom = trim($_POST['nom']);
@@ -39,22 +42,15 @@
             $sexe = $_POST['sexe'];
             $email = trim($_POST['email']);
             
-            // Validation simple
+            
             if (!empty($prenom) && !empty($nom) && !empty($naissance) && !empty($sexe) && !empty($email)) {
-                // Vérifier si l'email existe déjà
-                $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM etudiants WHERE email = :email");
-                $checkStmt->execute(['email' => $email]);
                 
-                if ($checkStmt->fetchColumn() == 0) {
-                    // Insérer le nouvel étudiant
-                    $insertStmt = $pdo->prepare("INSERT INTO etudiants (prenom, nom, naissance, sexe, email) VALUES (:prenom, :nom, :naissance, :sexe, :email)");
-                    $result = $insertStmt->execute([
-                        'prenom' => $prenom,
-                        'nom' => $nom,
-                        'naissance' => $naissance,
-                        'sexe' => $sexe,
-                        'email' => $email
-                    ]);
+                $emailCount = getCount($pdo, 'check_email_exists', [$email]);
+                
+                if ($emailCount == 0) {
+                    
+                    $insertStmt = $pdo->prepare(loadSQLQuery('insert_student'));
+                    $result = $insertStmt->execute([$prenom, $nom, $naissance, $sexe, $email]);
                     
                     if ($result) {
                         $message = '<p class="success">Étudiant ajouté avec succès !</p>';
@@ -111,7 +107,7 @@
     
     <?php
     try {
-        // Afficher tous les étudiants
+        
         $stmt = $pdo->query("SELECT * FROM etudiants ORDER BY nom, prenom");
         $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
@@ -143,3 +139,4 @@
     ?>
 </body>
 </html>
+
